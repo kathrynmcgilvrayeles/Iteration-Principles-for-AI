@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering AI Feedback Iteration | L&D Professional Guide</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#1f2a52',
+                            teal: '#00bec7',
+                            lightTeal: '#d2f0f0',
+                            grey: '#abb5bf',
+                            white: '#ffffff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbar and transition utilities */
+        body {
+            background-color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .accordion-content {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, padding 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        
+        .accordion-content.open {
+            max-height: 600px;
+            opacity: 1;
+        }
+        
+        .chevron {
+            transition: transform 0.3s ease;
+        }
+        
+        .chevron.open {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="font-sans relative text-gray-800">
+
+    <!-- Header Section -->
+    <header class="p-8 text-center relative shadow-sm bg-brand-navy text-brand-white z-10">
+        <div class="inline-block px-3 py-1 mb-3 text-xs font-semibold tracking-wider uppercase rounded-full bg-brand-teal bg-opacity-20 text-brand-lightTeal border border-brand-teal border-opacity-30">
+            AI Generalist for L&D Professionals
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold mb-4">Mastering AI Feedback Iteration</h1>
+        <p class="text-lg max-w-2xl mx-auto mb-6 text-brand-lightTeal">
+            Generative AI rarely delivers a ready-to-use output on the first attempt. The key to high-impact learning and performance conversations lies in strategic iteration.
+        </p>
+        
+        <div class="flex flex-wrap justify-center gap-4 mt-2">
+            <button onclick="openModal('mindset-modal')" class="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-transform hover:scale-105 shadow-lg bg-brand-lightTeal text-brand-navy">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4 4.5 4.5 0 0 1-3-4"/></svg>
+                The Mindset Shift
+            </button>
+            <button onclick="openModal('questions-modal')" class="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-transform hover:scale-105 shadow-lg bg-brand-teal text-brand-navy">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                Prompting Quick Reference
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-5xl mx-auto p-4 md:p-8 flex-grow w-full">
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold mb-3 flex items-center gap-2 text-brand-navy">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-teal"><path d="m9 11-6 6v3h9l3-3"/><path d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"/></svg>
+                The 5 Principles of Feedback Iteration
+            </h2>
+            <p class="mb-6 text-gray-700 leading-relaxed">
+                Explore each principle below to see how you can guide AI when drafting capability assessments, coaching guides, learner feedback, or stakeholder evaluations.
+            </p>
+            
+            <!-- Dynamic Accordion Container -->
+            <div id="accordion-container" class="flex flex-col gap-3"></div>
+        </section>
+    </main>
+
+    <!-- Decorative Footer Graphic -->
+    <div class="w-full mt-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" class="w-full h-16 md:h-24 block" preserveAspectRatio="none">
+            <path d="M0,120 L1440,120 L1440,0 Z" fill="#d2f0f0" opacity="0.6" />
+            <path d="M0,120 L1440,120 L1440,50 L0,120 Z" fill="#00bec7" />
+            <path d="M0,120 L1100,120 L0,30 Z" fill="#1f2a52" />
+            <g opacity="0.4" fill="#ffffff">
+                <circle cx="1320" cy="95" r="3.5" />
+                <circle cx="1340" cy="95" r="3.5" />
+                <circle cx="1360" cy="95" r="3.5" />
+                <circle cx="1380" cy="95" r="3.5" />
+                <circle cx="1330" cy="110" r="3.5" />
+                <circle cx="1350" cy="110" r="3.5" />
+                <circle cx="1370" cy="110" r="3.5" />
+                <circle cx="1390" cy="110" r="3.5" />
+            </g>
+        </svg>
+        <div class="h-4 w-full bg-brand-navy"></div>
+    </div>
+
+    <!-- Modal 1: The Mindset Shift -->
+    <div id="mindset-modal" class="hidden fixed inset-0 z-50 items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
+            <div class="flex justify-between items-center p-6 border-b bg-brand-navy text-brand-white">
+                <h2 class="text-2xl font-bold flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-teal"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4 4.5 4.5 0 0 1-3-4"/></svg>
+                    The Mindset Shift for L&D
+                </h2>
+                <button onclick="closeModal('mindset-modal')" class="p-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-colors" aria-label="Close modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+
+            <div class="p-6 overflow-y-auto">
+                <p class="mb-6 text-gray-800 text-lg leading-relaxed">
+                    Before integrating AI, crafting developmental feedback or coaching notes relied on your subconscious expertise. Your brain automatically drew upon adult learning principles, emotional intelligence, and organisational culture.
+                    <br/><br/>
+                    <strong>AI lacks your professional intuition and organisational context.</strong> The core capability isn't just writing a clever initial prompt—it is consciously surfacing your tacit L&D expertise and explicitly directing the AI to apply it.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-5 rounded-lg border border-brand-grey bg-gray-50 shadow-sm">
+                        <h3 class="font-bold mb-4 flex items-center gap-2 text-brand-navy">
+                            <span class="px-2.5 py-1 rounded-full flex items-center justify-center bg-gray-200 text-gray-700 font-bold text-xs uppercase tracking-wider">Traditional</span>
+                            Intuitive Drafting
+                        </h3>
+                        <ul class="space-y-3 text-sm text-gray-700">
+                            <li class="flex gap-2 items-start"><span class="text-gray-400 mt-0.5 font-bold">•</span> <span>You start with a blank page and build the narrative from scratch.</span></li>
+                            <li class="flex gap-2 items-start"><span class="text-gray-400 mt-0.5 font-bold">•</span> <span>You subconsciously weave in behavioural frameworks and organisational nuance.</span></li>
+                            <li class="flex gap-2 items-start"><span class="text-gray-400 mt-0.5 font-bold">•</span> <span>Primary Focus: <strong>Generating</strong> the initial copy.</span></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="p-5 rounded-lg border shadow-sm border-brand-teal bg-brand-lightTeal">
+                        <h3 class="font-bold mb-4 flex items-center gap-2 text-brand-navy">
+                            <span class="px-2.5 py-1 rounded-full flex items-center justify-center text-white font-bold text-xs uppercase tracking-wider bg-brand-teal">AI-Enabled</span>
+                            Explicit Direction
+                        </h3>
+                        <ul class="space-y-3 text-sm text-gray-800">
+                            <li class="flex gap-2 items-start"><span class="text-brand-teal mt-0.5 font-bold">•</span> <span>The AI produces a rapid, structured, yet generic first draft.</span></li>
+                            <li class="flex gap-2 items-start"><span class="text-brand-teal mt-0.5 font-bold">•</span> <span>You critically evaluate the output and inject human empathy, role context, and psychological safety.</span></li>
+                            <li class="flex gap-2 items-start"><span class="text-brand-teal mt-0.5 font-bold">•</span> <span>Primary Focus: <strong>Shaping and curating</strong> the AI's reasoning.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 border-t flex justify-end bg-[#f8fafc]">
+                <button onclick="closeModal('mindset-modal')" class="px-6 py-2 rounded-lg font-bold transition-colors shadow-sm bg-brand-navy text-brand-white hover:bg-opacity-90">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Quick Reference Questions -->
+    <div id="questions-modal" class="hidden fixed inset-0 z-50 items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
+            <div class="flex justify-between items-center p-6 border-b bg-brand-navy text-brand-white">
+                <h2 class="text-2xl font-bold flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-brand-teal"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                    Structuring Iteration Prompts
+                </h2>
+                <button onclick="closeModal('questions-modal')" class="p-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-colors" aria-label="Close modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+
+            <div class="p-6 overflow-y-auto">
+                <p class="mb-6 text-gray-700 leading-relaxed">
+                    Treat this as a collaborative partnership: <strong>You are the expert in human behaviour and learning</strong> (empathy, organisational culture, capability building), and <strong>the AI is the engine for synthesis</strong> (structuring, drafting, pattern recognition). Use these prompts to combine your L&D expertise with the AI's processing power.
+                </p>
+                
+                <div class="overflow-x-auto rounded-lg border border-brand-grey shadow-sm">
+                    <table class="w-full text-left border-collapse min-w-[700px]">
+                        <thead>
+                            <tr class="bg-brand-lightTeal text-brand-navy">
+                                <th class="p-4 font-bold border-b border-gray-200 w-1/5">L&D Objective</th>
+                                <th class="p-4 font-bold border-b border-gray-200 w-2/5">How to Prompt the AI...</th>
+                                <th class="p-4 font-bold border-b border-gray-200 w-2/5">How Your L&D Expertise Guides the Output</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="p-4 font-semibold text-brand-navy">Mitigating Bias</td>
+                                <td class="p-4 italic text-gray-700 text-sm">"Review this draft against the raw observation notes I provided. Highlight any subjective assumptions or evaluative judgements that aren't directly supported by behavioural evidence."</td>
+                                <td class="p-4 text-sm text-gray-600">AI often fills gaps with plausible-sounding generalisations. Your prompt forces it to separate objective, observable data from inferred bias.</td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="p-4 font-semibold text-brand-navy">Fostering Psychological Safety</td>
+                                <td class="p-4 italic text-gray-700 text-sm">"Adopt the persona of a conscientious team member who struggles with imposter syndrome. Which phrase in this feedback is most likely to trigger a defensive reaction, and how can we reframe it?"</td>
+                                <td class="p-4 text-sm text-gray-600">AI does not experience emotion. By defining a specific learner persona, you leverage your emotional intelligence to audit and calibrate the tone.</td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="p-4 font-semibold text-brand-navy">Driving Behavioural Action</td>
+                                <td class="p-4 italic text-gray-700 text-sm">"This draft identifies the capability gap, but remains too abstract. Suggest three concrete, observable micro-habits the individual can practise during their next project meeting."</td>
+                                <td class="p-4 text-sm text-gray-600">AI defaults to high-level platitudes. Your understanding of workplace transfer directs the AI to translate theory into practical on-the-job application.</td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                <td class="p-4 font-semibold text-brand-navy">Embedding Workplace Context</td>
+                                <td class="p-4 italic text-gray-700 text-sm">"Adjust this developmental plan to account for the fact that the team is currently navigating a major system migration and competing project deadlines. How can we make this achievable?"</td>
+                                <td class="p-4 text-sm text-gray-600">AI generates text in an operational vacuum. Injecting the reality of current organisational pressures ensures learning expectations remain realistic and supportive.</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="p-4 font-semibold text-brand-navy">Designing Coaching Conversations</td>
+                                <td class="p-4 italic text-gray-700 text-sm">"Rather than prescribing the solution, generate three open-ended, reflective questions a manager could ask to help the individual self-diagnose this workflow bottleneck."</td>
+                                <td class="p-4 text-sm text-gray-600">AI is trained to provide answers. Your facilitation expertise recognises that guided discovery builds stronger capability, shifting the AI from 'advisor' to 'coaching partner'.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="p-4 border-t flex justify-end bg-[#f8fafc]">
+                <button onclick="closeModal('questions-modal')" class="px-6 py-2 rounded-lg font-bold transition-colors bg-brand-navy text-brand-white hover:bg-opacity-90">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const principles = [
+            {
+                title: "1. Interrogate the Logic",
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>',
+                humanThought: "You understand the complexities of workplace dynamics and adult learning; the AI only processes text patterns. Challenge its assumptions to ensure feedback is objective, equitable, and evidence-based.",
+                aiQuestion: "What underlying assumptions are you making about this person's capability? What environmental or stakeholder factors might be missing from this assessment?",
+                application: "When using AI to synthesise 360-degree feedback or coaching notes, push back on its initial conclusions to uncover systemic factors and generate fairer, more constructive insights."
+            },
+            {
+                title: "2. Design for the Learner's Reality",
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>',
+                humanThought: "You understand cognitive load and workplace pressures. The AI doesn't experience competing priorities or change fatigue. Direct it to respect the recipient's bandwidth.",
+                aiQuestion: "This summary is too dense for a time-poor leader. Reduce the word count by 30%, prioritise the top two developmental focus areas, and use clear, action-oriented language.",
+                application: "Iterating on a drafted capability plan or performance summary so that it builds self-efficacy and clarity, rather than overwhelming the learner with excessive detail."
+            },
+            {
+                title: "3. Anchor in Operational Context",
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12"/><path d="M3 21h18"/><path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/><path d="M3 9l9-6 9 6"/></svg>',
+                humanThought: "You know what effective performance actually looks like across your organisation. Guide the AI away from generic corporate jargon toward tangible, role-specific behaviours.",
+                aiQuestion: "Replace the vague phrase 'needs to improve stakeholder engagement' with specific, observable behaviours relevant to leading a cross-functional project discovery phase.",
+                application: "Transforming generic AI-generated competencies into practical, scenario-based guidance that resonates with the person's day-to-day workflow."
+            },
+            {
+                title: "4. Calibrate Tone and Structure",
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.287 1.288L3 12l5.8 1.9a2 2 0 0 1 1.288 1.287L12 21l1.9-5.8a2 2 0 0 1 1.287-1.288L21 12l-5.8-1.9a2 2 0 0 1-1.288-1.287Z"/></svg>',
+                humanThought: "You know how your organisation communicates and how to foster a growth mindset. Direct the AI to structure and phrase the output so it is encouraging and easy to digest.",
+                aiQuestion: "The current tone reads like a compliance audit. Reframe this using a developmental, strengths-based tone, and format the recommended actions as a practical 3-step experiment.",
+                application: "Polishing the final coaching guide or feedback document so it uses clear signposting, maintains psychological safety, and encourages immediate application."
+            },
+            {
+                title: "5. Apply L&D Frameworks as a Lens",
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
+                humanThought: "You are well-versed in models like SBI (Situation-Behaviour-Impact), GROW, or Radical Candor. The AI won't apply them rigorously unless prompted. Use these frameworks to structure its analysis.",
+                aiQuestion: "Evaluate these raw observation notes using the SBI framework. Have we clearly articulated the knock-on Impact on the wider team, or are we only describing the Situation?",
+                application: "Directing the AI to audit raw manager notes against proven L&D methodologies, ensuring the resulting coaching conversation is robust, structured, and developmentally sound."
+            }
+        ];
+
+        const container = document.getElementById('accordion-container');
+        let openIndex = 0; // First item open by default
+
+        function renderAccordions() {
+            container.innerHTML = ''; // Clear container
+            
+            principles.forEach((principle, index) => {
+                const isOpen = index === openIndex;
+                
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'border rounded-xl overflow-hidden transition-all duration-200 border-brand-grey bg-white shadow-sm';
+                
+                // Button
+                const btn = document.createElement('button');
+                btn.className = `w-full flex items-center justify-between p-4 md:p-5 text-left focus:outline-none hover:bg-opacity-70 transition-colors ${isOpen ? 'bg-brand-lightTeal' : 'bg-brand-white'}`;
+                btn.onclick = () => toggleAccordion(index);
+                
+                // Header Content (Left side)
+                const headerLeft = document.createElement('div');
+                headerLeft.className = 'flex items-center gap-3.5';
+                headerLeft.innerHTML = `
+                    <div class="p-2.5 rounded-full bg-brand-navy text-brand-white shrink-0">
+                        ${principle.icon}
+                    </div>
+                    <span class="font-bold text-lg text-brand-navy">${principle.title}</span>
+                `;
+                
+                // Chevron (Right side)
+                const chevron = document.createElement('div');
+                chevron.className = `chevron shrink-0 ml-2 ${isOpen ? 'open text-brand-navy' : 'text-brand-grey'}`;
+                chevron.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`;
+                
+                btn.appendChild(headerLeft);
+                btn.appendChild(chevron);
+                
+                // Content Body
+                const contentDiv = document.createElement('div');
+                contentDiv.className = `accordion-content bg-brand-white text-brand-navy ${isOpen ? 'open p-5 border-t border-brand-lightTeal' : 'px-5 py-0'}`;
+                
+                contentDiv.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-1">
+                        <div class="bg-slate-50 p-4 rounded-lg border border-brand-lightTeal">
+                            <h4 class="font-bold mb-2 text-xs uppercase tracking-wider text-brand-teal">Your L&D Lens</h4>
+                            <p class="text-sm leading-relaxed text-gray-700">${principle.humanThought}</p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-brand-lightTeal">
+                            <h4 class="font-bold mb-2 text-xs uppercase tracking-wider text-brand-teal">How to Prompt the AI</h4>
+                            <p class="text-sm italic font-medium leading-relaxed text-gray-800">"${principle.aiQuestion}"</p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-brand-lightTeal">
+                            <h4 class="font-bold mb-2 text-xs uppercase tracking-wider text-brand-teal">Practical Application</h4>
+                            <p class="text-sm leading-relaxed text-gray-700">${principle.application}</p>
+                        </div>
+                    </div>
+                `;
+                
+                itemDiv.appendChild(btn);
+                itemDiv.appendChild(contentDiv);
+                container.appendChild(itemDiv);
+            });
+        }
+
+        function toggleAccordion(index) {
+            openIndex = openIndex === index ? -1 : index;
+            renderAccordions();
+        }
+
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            if (event.target.id === 'mindset-modal' || event.target.id === 'questions-modal') {
+                closeModal(event.target.id);
+            }
+        }
+
+        // Initial render
+        renderAccordions();
+    </script>
+</body>
+</html>
